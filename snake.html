@@ -44,120 +44,309 @@
             font-size: 1.2rem;
         }
         
-        .score, .high-score {
+        .score, .high-score, .level {
             background-color: rgba(0, 0, 0, 0.5);
             padding: 5px 15px;
             border-radius: 20px;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
         }
         
         canvas {
-            border: 3px solid #0f0;
-            border-radius: 5px;
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
-            background-color: #222;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
             max-width: 100%;
-            height: auto;
         }
         
-        .controls {
+        .game-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
-            justify-content: space-between;
-            margin-top: 15px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            z-index: 10;
         }
         
-        button {
-            background: linear-gradient(to bottom, #0f0, #0a0);
+        .game-overlay h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #ff3860;
+            text-shadow: 0 0 10px rgba(255, 56, 96, 0.7);
+        }
+        
+        .game-overlay p {
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+        }
+        
+        .button {
+            background-color: #00d1b2;
             color: white;
             border: none;
             padding: 10px 20px;
-            border-radius: 20px;
+            margin: 5px;
+            border-radius: 5px;
+            font-size: 1rem;
             cursor: pointer;
-            font-weight: bold;
             transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
         }
         
-        button:hover {
+        .button:hover {
+            background-color: #00c4a7;
             transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
         }
         
-        button:active {
-            transform: scale(0.95);
+        .button.is-danger {
+            background-color: #ff3860;
         }
         
-        #startScreen, #gameControls, #gameOverScreen {
-            display: none;
-            justify-content: center;
-            gap: 10px;
+        .button.is-danger:hover {
+            background-color: #ff1443;
+        }
+        
+        .controls {
             margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
         }
         
-        .instructions {
-            margin-top: 20px;
+        .hidden {
+            display: none;
+        }
+        
+        /* Game mode selector */
+        .game-modes {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .mode-button {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: 2px solid #00d1b2;
+            padding: 8px 15px;
+            margin: 0 5px;
+            border-radius: 20px;
             font-size: 0.9rem;
-            color: #ccc;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
         
-        .instructions p {
-            margin: 5px 0;
+        .mode-button.active {
+            background-color: #00d1b2;
+            color: #1a1a2e;
+        }
+        
+        /* Power-up indicator */
+        .power-up-indicator {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 1rem;
+            color: #ffdd57;
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        /* Mobile controls */
+        .mobile-controls {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .mobile-button {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 2px solid #00d1b2;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: white;
+            margin: 5px;
+            user-select: none;
+        }
+        
+        .mobile-button:active {
+            background-color: #00d1b2;
+            color: #1a1a2e;
+        }
+        
+        .mobile-controls-row {
+            display: flex;
+            justify-content: center;
+        }
+        
+        /* Settings panel */
+        .settings-panel {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(26, 26, 46, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            z-index: 20;
+            width: 80%;
+            max-width: 400px;
+        }
+        
+        .settings-panel h2 {
+            margin-bottom: 20px;
+            color: #00d1b2;
+        }
+        
+        .settings-option {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        
+        .settings-option label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .settings-option select,
+        .settings-option input[type="range"] {
+            width: 100%;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.3);
+            color: white;
+            border: 1px solid #00d1b2;
+        }
+        
+        .settings-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
         }
         
         /* Responsive design */
-        @media (max-width: 500px) {
-            .game-container {
-                padding: 10px;
+        @media (max-width: 768px) {
+            .mobile-controls {
+                display: block;
             }
             
             h1 {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
             
-            button {
-                padding: 8px 15px;
-                font-size: 0.9rem;
+            .game-container {
+                padding: 10px;
             }
-        }
-        
-        /* Animation for buttons */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        #startButton {
-            animation: pulse 1.5s infinite;
         }
     </style>
 </head>
 <body>
     <div class="game-container">
-        <h1>Enhanced Snake Game</h1>
+        <h1>Snake Game</h1>
         
         <div class="score-container">
             <div class="score">Score: <span id="score">0</span></div>
+            <div class="level">Level: <span id="level">1</span></div>
             <div class="high-score">High Score: <span id="highScore">0</span></div>
         </div>
         
+        <div class="game-modes">
+            <button class="mode-button active" data-mode="classic">Classic</button>
+            <button class="mode-button" data-mode="timeAttack">Time Attack</button>
+            <button class="mode-button" data-mode="maze">Maze</button>
+        </div>
+        
+        <div class="power-up-indicator" id="powerUpIndicator"></div>
+        
         <canvas id="game" width="400" height="400"></canvas>
         
-        <div id="startScreen">
-            <button id="startButton">START GAME</button>
+        <div class="controls">
+            <button id="startButton" class="button">Start Game</button>
+            <button id="pauseButton" class="button">Pause</button>
+            <button id="settingsButton" class="button">Settings</button>
+            <button id="restartButton" class="button is-danger">Restart</button>
         </div>
         
-        <div id="gameControls">
-            <button id="pauseButton">PAUSE</button>
+        <div class="mobile-controls">
+            <div class="mobile-controls-row">
+                <div class="mobile-button" id="upButton">↑</div>
+            </div>
+            <div class="mobile-controls-row">
+                <div class="mobile-button" id="leftButton">←</div>
+                <div class="mobile-button" id="rightButton">→</div>
+            </div>
+            <div class="mobile-controls-row">
+                <div class="mobile-button" id="downButton">↓</div>
+            </div>
         </div>
         
-        <div id="gameOverScreen">
-            <button id="restartButton">PLAY AGAIN</button>
+        <!-- Start Screen Overlay -->
+        <div id="startScreen" class="game-overlay">
+            <h2>Snake Game</h2>
+            <p>Use arrow keys to control the snake.<br>Collect food to grow and earn points!</p>
+            <p>Special power-ups will appear to help you on your journey.</p>
+            <button id="startGameButton" class="button">Start Game</button>
         </div>
         
-        <div class="instructions">
-            <p>Use arrow keys or swipe to control the snake</p>
-            <p>Press P to pause, G to toggle grid</p>
+        <!-- Game Over Screen Overlay -->
+        <div id="gameOverScreen" class="game-overlay hidden">
+            <h2>Game Over!</h2>
+            <p>Your Score: <span id="finalScore">0</span></p>
+            <p>High Score: <span id="finalHighScore">0</span></p>
+            <button id="playAgainButton" class="button">Play Again</button>
+        </div>
+        
+        <!-- Settings Panel -->
+        <div id="settingsPanel" class="settings-panel hidden">
+            <h2>Settings</h2>
+            <div class="settings-option">
+                <label for="difficultySelect">Difficulty:</label>
+                <select id="difficultySelect">
+                    <option value="easy">Easy</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </div>
+            <div class="settings-option">
+                <label for="soundToggle">Sound Effects:</label>
+                <select id="soundToggle">
+                    <option value="on">On</option>
+                    <option value="off">Off</option>
+                </select>
+            </div>
+            <div class="settings-option">
+                <label for="snakeColorSelect">Snake Color:</label>
+                <select id="snakeColorSelect">
+                    <option value="rainbow">Rainbow</option>
+                    <option value="green">Green</option>
+                    <option value="blue">Blue</option>
+                    <option value="red">Red</option>
+                </select>
+            </div>
+            <div class="settings-option">
+                <label for="gridToggle">Show Grid:</label>
+                <select id="gridToggle">
+                    <option value="on">On</option>
+                    <option value="off">Off</option>
+                </select>
+            </div>
+            <div class="settings-buttons">
+                <button id="saveSettingsButton" class="button">Save</button>
+                <button id="cancelSettingsButton" class="button is-danger">Cancel</button>
+            </div>
         </div>
     </div>
     
